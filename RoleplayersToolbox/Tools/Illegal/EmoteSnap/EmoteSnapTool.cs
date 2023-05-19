@@ -1,5 +1,4 @@
-﻿#if ILLEGAL
-
+﻿
 using System;
 using Dalamud.Game.Command;
 using Dalamud.Hooking;
@@ -59,4 +58,3 @@ namespace RoleplayersToolbox.Tools.Illegal.EmoteSnap {
     }
 }
 
-#endif

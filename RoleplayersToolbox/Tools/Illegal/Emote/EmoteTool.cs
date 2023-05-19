@@ -1,5 +1,4 @@
-﻿#if ILLEGAL
-
+﻿
 using System;
 using System.Runtime.InteropServices;
 using Dalamud.Game.Command;
@@ -130,4 +129,3 @@ namespace RoleplayersToolbox.Tools.Illegal.Emote {
     }
 }
 
-#endif

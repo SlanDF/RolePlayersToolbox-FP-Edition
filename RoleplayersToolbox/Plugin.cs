@@ -9,11 +9,9 @@ using Dalamud.Game.Gui;
 using Dalamud.IoC;
 using Dalamud.Plugin;
 using RoleplayersToolbox.Tools;
-#if ILLEGAL
 using RoleplayersToolbox.Tools.Illegal.Emote;
 using RoleplayersToolbox.Tools.Illegal.EmoteSnap;
 
-#endif
 
 namespace RoleplayersToolbox {
     internal class Plugin : IDalamudPlugin {
@@ -57,11 +55,10 @@ namespace RoleplayersToolbox {
             Interface = pluginInterface;
             Config = Interface.GetPluginConfig() as Configuration ?? new Configuration();
 
-
-            #if ILLEGAL
+            
             this.Tools.Add(new EmoteTool(this));
             this.Tools.Add(new EmoteSnapTool(this));
-            #endif
+
 
             this.Ui = new PluginUi(this);
 

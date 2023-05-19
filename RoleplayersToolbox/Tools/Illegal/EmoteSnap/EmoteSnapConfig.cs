@@ -1,5 +1,4 @@
-﻿#if ILLEGAL
-
+﻿
 using System;
 using RoleplayersToolbox.Tools.Illegal.EmoteSnap;
 
@@ -16,4 +15,3 @@ namespace RoleplayersToolbox.Tools.Illegal.EmoteSnap {
     }
 }
 
-#endif

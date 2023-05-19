@@ -1,5 +1,4 @@
-﻿#if ILLEGAL
-
+﻿
 using System;
 
 namespace RoleplayersToolbox.Tools.Illegal.Emote {
@@ -17,4 +16,3 @@ namespace RoleplayersToolbox.Tools.Illegal.Emote {
     }
 }
 
-#endif
