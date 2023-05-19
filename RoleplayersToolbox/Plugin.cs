@@ -9,9 +9,6 @@ using Dalamud.Game.Gui;
 using Dalamud.IoC;
 using Dalamud.Plugin;
 using RoleplayersToolbox.Tools;
-using RoleplayersToolbox.Tools.Housing;
-using RoleplayersToolbox.Tools.Targeting;
-using XivCommon;
 #if ILLEGAL
 using RoleplayersToolbox.Tools.Illegal.Emote;
 using RoleplayersToolbox.Tools.Illegal.EmoteSnap;
@@ -23,21 +20,18 @@ namespace RoleplayersToolbox {
         #if DEBUG
         public string Name => "The Roleplayer's Toolbox (Debug)";
         #else
-        public string Name => "The Roleplayer's Toolbox";
+        public string Name => "Sleep & Sit anywhere";
         #endif
 
         [PluginService]
-        internal DalamudPluginInterface Interface { get; init; } = null!;
-
-        [PluginService]
-        internal ChatGui ChatGui { get; init; } = null!;
+        internal DalamudPluginInterface Interface { get; private set; }
 
         [PluginService]
         internal ClientState ClientState { get; init; } = null!;
-
+        
         [PluginService]
-        internal CommandManager CommandManager { get; init; } = null!;
-
+        internal CommandManager CommandManager { get; private set; }
+        
         [PluginService]
         internal DataManager DataManager { get; init; } = null!;
 
@@ -51,20 +45,18 @@ namespace RoleplayersToolbox {
         internal ObjectTable ObjectTable { get; init; } = null!;
 
         [PluginService]
-        internal SigScanner SigScanner { get; init; } = null!;
+        internal SigScanner SigScanner { get; init; } = new();
 
-        internal Configuration Config { get; }
-        internal XivCommonBase Common { get; }
+        internal Configuration Config { get; } 
         internal List<ITool> Tools { get; } = new();
         internal PluginUi Ui { get; }
         private Commands Commands { get; }
 
-        public Plugin() {
-            this.Config = this.Interface.GetPluginConfig() as Configuration ?? new Configuration();
-            this.Common = new XivCommonBase(Hooks.ContextMenu | Hooks.PartyFinderListings);
+        public Plugin(CommandManager commandManager, DalamudPluginInterface pluginInterface) {
+            CommandManager = commandManager;
+            Interface = pluginInterface;
+            Config = Interface.GetPluginConfig() as Configuration ?? new Configuration();
 
-            this.Tools.Add(new HousingTool(this));
-            this.Tools.Add(new TargetingTool(this));
 
             #if ILLEGAL
             this.Tools.Add(new EmoteTool(this));
@@ -88,7 +80,6 @@ namespace RoleplayersToolbox {
 
             this.Tools.Clear();
 
-            this.Common.Dispose();
         }
 
         internal void SaveConfig() {

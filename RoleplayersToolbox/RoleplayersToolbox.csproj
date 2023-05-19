@@ -1,14 +1,18 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
-        <TargetFramework>net5-windows</TargetFramework>
-        <Version>0.3.5</Version>
+        <TargetFramework>net7.0-windows</TargetFramework>
+        <AssemblyVersion>3.3.0.2</AssemblyVersion>
+        <Platforms>x64</Platforms>
+        <Version>0.0.1</Version>
         <LangVersion>latest</LangVersion>
         <Nullable>enable</Nullable>
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
         <Configurations>Release Official;Release Illegal;Debug Official;Debug Illegal</Configurations>
-        <Platforms>AnyCPU</Platforms>
+        <Platforms>x64</Platforms>
         <ProduceReferenceAssembly>false</ProduceReferenceAssembly>
         <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+        <DalamudLibPath>$(appdata)\XIVLauncher\addon\Hooks\dev\</DalamudLibPath>
+        <ResolveAssemblyWarnOrErrorOnTargetArchitectureMismatch>None</ResolveAssemblyWarnOrErrorOnTargetArchitectureMismatch>
     </PropertyGroup>
     <PropertyGroup Condition=" '$(Configuration)' == 'Release Official' ">
         <DefineConstants>TRACE;RELEASE;</DefineConstants>
@@ -53,8 +57,6 @@
         </Reference>
     </ItemGroup>
     <ItemGroup>
-        <PackageReference Include="DalamudPackager" Version="2.1.6" />
-        <PackageReference Include="F23.StringSimilarity" Version="5.0.0" />
-        <PackageReference Include="XivCommon" Version="4.0.0" />
+        <PackageReference Include="DalamudPackager" Version="2.1.11" />
     </ItemGroup>
 </Project>

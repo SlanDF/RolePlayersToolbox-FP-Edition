@@ -32,12 +32,15 @@ namespace RoleplayersToolbox.Tools.Illegal.Emote {
         internal EmoteTool(Plugin plugin) {
             this.Plugin = plugin;
 
-            this.Plugin.CommandManager.AddHandler("/emoteid", new CommandInfo(this.EmoteIdCommand) {
-                HelpMessage = "Run the emote with the given ID if it is unlocked",
+            this.Plugin.CommandManager.AddHandler("/osit", new CommandInfo(EmoteObjectSit) {
+                HelpMessage = "Object sit anywhere",
+            });            
+            this.Plugin.CommandManager.AddHandler("/sleep", new CommandInfo(EmoteSleep) {
+                HelpMessage = "Bed doze anywhere",
             });
 
             if (this.Plugin.SigScanner.TryScanText(Signatures.SetActionOnHotbar, out var setPtr)) {
-                this.SetActionOnHotbarHook = new Hook<SetActionOnHotbarDelegate>(setPtr, this.SetActionOnHotbarDetour);
+                this.SetActionOnHotbarHook = Hook<SetActionOnHotbarDelegate>.FromAddress(setPtr, this.SetActionOnHotbarDetour);
                 this.SetActionOnHotbarHook.Enable();
             }
 
@@ -51,12 +54,13 @@ namespace RoleplayersToolbox.Tools.Illegal.Emote {
 
         public void Dispose() {
             this.SetActionOnHotbarHook?.Dispose();
-            this.Plugin.CommandManager.RemoveHandler("/emoteid");
+            this.Plugin.CommandManager.RemoveHandler("/osit");
+            this.Plugin.CommandManager.RemoveHandler("/sleep");
         }
 
         public override void DrawSettings(ref bool anyChanged) {
             if (this.SetActionOnHotbarHook == null) {
-                ImGui.TextUnformatted("An update broke this tool. Please let Anna know.");
+                ImGui.TextUnformatted("Plogon Broke.");
                 return;
             }
 
@@ -88,7 +92,7 @@ namespace RoleplayersToolbox.Tools.Illegal.Emote {
 
             ImGui.Separator();
 
-            ImGui.TextUnformatted("This tool also adds the /emoteid command, allowing you to run an emote based on its ID. This does NOT allow you to use emotes you do not have unlocked. For example, to use the sleep emote, run /emoteid 88.");
+            ImGui.TextUnformatted("You can just run /sleep or /osit or add these to a macro.");
         }
 
         private IntPtr SetActionOnHotbarDetour(IntPtr a1, IntPtr a2, byte actionType, uint actionId) {
@@ -102,8 +106,14 @@ namespace RoleplayersToolbox.Tools.Illegal.Emote {
             return this.SetActionOnHotbarHook!.Original(a1, a2, 6, (uint) emote);
         }
 
-        private void EmoteIdCommand(string command, string arguments) {
-            if (ushort.TryParse(arguments, out var emoteId)) {
+        private void EmoteObjectSit(string command, string arguments) {
+            if (ushort.TryParse("96", out var emoteId)) {
+                this.RunEmote(emoteId);
+            }
+        }        
+        
+        private void EmoteSleep(string command, string arguments) {
+            if (ushort.TryParse("88", out var emoteId)) {
                 this.RunEmote(emoteId);
             }
         }
